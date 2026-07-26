@@ -65,17 +65,18 @@ fsimp(expr, r) :=
              if fsdebug>3 then display(simpdExpr),
 
              /* if the expression is smaller always take the step */
-             if simpdExprSize < exprSize then
+             if simpdExprSize <= smallestExprSize then
              block(
                  smallestExpr : simpdExpr,
                  smallestExprSize : simpdExprSize,
                  if fsdebug>1 then print(">>>>> redefining smallestExpr: ",smallestExprSize),
-                 expr : smallestExpr,
-                 exprSize : smallestExprSize
-             ),
-             /* only take slightly larger expressions
-                but never return them */
-             if simpdExprSize > smallestExprSize then
+                 if simpdExprSize < exprSize then
+                 block(
+                     expr : smallestExpr,
+                     exprSize : smallestExprSize
+                 )
+             )
+             else
              block([t1],
                t1: (simpdExprSize - smallestExprSize) / smallestExprSize,
                if fsdebug>1 then print("t1=",float(t1)),
@@ -85,6 +86,7 @@ fsimp(expr, r) :=
                  smallestExpr : simpdExpr,
                  smallestExprSize : simpdExprSize
              ))
+
          )
        )
      ),
