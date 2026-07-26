@@ -54,7 +54,6 @@ fsimp(expr, r) :=
          if fsdebug>1 and L=1 then print("************* Entering main loop *******************"),
          if fsdebug>1 then print("-------------------------- loopcnt=",L),
          if fsdebug>2 then display(expr),
-         if L > loopmax then return(expr),
 
          block(
             for i : 1 thru length(r) do
